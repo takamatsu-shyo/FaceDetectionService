@@ -24,18 +24,20 @@ class HttpService:
     @http('POST', '/post')
     def do_post(self, request):
 
-        """
         print("Request", request)
         r = request
 
+        img_str = r.get_data(as_text=True)
+        print("img_str: ", img_str)
+
         # convert string of image data to uint8
-        nparr = np.fromstring(r.data, np.uint8)
+        nparr = np.fromstring(r.data, dtype=np.uint8)
         print("nparr", nparr)
+        print("npsize", nparr.shape)
 
         # decode image
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        img = cv2.imdecode(nparr, -1)
         print("after decode", img.size)
-        """ 
 
         return u"received: {}".format(request.get_data(as_text=True))
         #return img.size
