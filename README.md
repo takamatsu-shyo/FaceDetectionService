@@ -1,9 +1,4 @@
-# FaceDetectionService (Midterm report)
-
-Name: Sho Yano  
-Email: syano372@protonmail.com  
-Submission Date: 2019-May-19
-
+# FaceDetectionService 
 
 ## How to test it
 Server
