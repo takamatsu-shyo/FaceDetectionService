@@ -4,8 +4,8 @@ import requests
 import json
 import cv2
 
-addr = 'http://localhost:5000'
-test_url = addr + '/api/test'
+addr = 'http://localhost:8000'
+test_url = addr + '/test'
 
 # Prepare headers for http request
 content_type = 'image/jpeg'
@@ -15,8 +15,10 @@ img = cv2.imread('yaris.jpg')
 
 # Encode image as jpeg
 _, img_encoded = cv2.imencode('.jpg', img)
+
 # Send HTTP request with image and recieve response
 response = requests.post(test_url, data=img_encoded.tostring(), headers=headers)
+
 # Decode response
 print (json.loads(response.text))
 

@@ -11,7 +11,6 @@ Client
 python3 client.py
 ```
 
-## About the paper
 
 ## References
 
