@@ -4,14 +4,14 @@ import requests
 import json
 import cv2
 
-addr = 'http://localhost:8000'
+addr = 'http://localhost:5000'
 test_url = addr + '/test'
 
 # Prepare headers for http request
 content_type = 'image/jpeg'
 headers      = {'content-type': content_type}
 
-img = cv2.imread('yaris.jpg')
+img = cv2.imread('./photo/jaak_id.jpg')
 
 # Encode image as jpeg
 _, img_encoded = cv2.imencode('.jpg', img)
