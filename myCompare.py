@@ -24,9 +24,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+
+# Those __future__ lines should be the first otherwise SyntaxError
+# Copied to myServer.py
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+"""
 
 from scipy import misc
 import tensorflow as tf
@@ -36,7 +41,8 @@ import os
 import copy
 import argparse
 import facenet
-import align.detect_face
+#import align.detect_face
+import facenet.src.align.detect_face
 
 def main(args):
 
@@ -81,10 +87,11 @@ def main(args):
 # Dirty copy&paste from load_and_align_data (next one)            
 #
 #def load_and_face_box(image_paths, image_size, margin, gpu_memory_fraction):
-def detect_face(img):
+def my_detect_face(img):
     minsize = 20 # minimum size of face
     threshold = [ 0.6, 0.7, 0.7 ]  # three steps's threshold
     factor = 0.709 # scale factor
+    gpu_memory_fraction = 0.9 # Quick dirty solution
     
     print('Creating networks and loading parameters')
     with tf.Graph().as_default():
