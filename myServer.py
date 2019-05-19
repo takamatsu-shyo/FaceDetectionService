@@ -6,16 +6,26 @@ import cv2
 # Initilize the Flask application
 app = Flask(__name__)
 
+def req2img(request):
+    r = request
+    # Convert string of image data to uint8
+    nparr = np.fromstring(r.data, np.uint8)
+    # Decode image
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    return image
+
 # Route HTTP posts to this method
 @app.route('/test', methods=['POST'])
 def test():
+    """
     r = request
     # Convert string of image data to uint8
     nparr = np.fromstring(r.data, np.uint8)
     # Decode image
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-    # Do sth?
+    """
+    img = req2img(request)
 
     # Build a response dict to send back to client
     response = {'message': 'image received. size={}x{}'.format(img.shape[1], img.shape[0])}
@@ -24,6 +34,20 @@ def test():
     response_pickled = jsonpickle.encode(response)
 
     return Response(response=response_pickled, status=200, mimetype="application/json")
+
+# Simple health check
+@app.route('/ping', methods=['GET'])
+def ping():
+    return 'pong\n'
+
+# Face box
+"""
+@app.route('/facebox', methods=['POST'])
+def facebox():
+    img = req2img(request) 
+
+    # Do the face detection
+"""
     
 # Start Flask app
 app.run(host="0.0.0.0", port=5000)
