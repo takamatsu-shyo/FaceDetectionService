@@ -7,6 +7,9 @@ import jsonpickle
 import numpy as np
 import cv2
 from facenet.src.myCompare import my_detect_face
+import jsonpickle.ext.numpy as jsonpickle_numpy
+
+jsonpickle_numpy.register_handlers()
 
 # Initilize the Flask application
 app = Flask(__name__)
@@ -52,13 +55,15 @@ def facebox():
 
     # Do the face detection
     face_box = my_detect_face(img)
-    print(face_box)
+    print(type(face_box))
 
      # Build a response dict to send back to client
-    response = {'message': 'image received. bb={}.{}.{}.{}'.format(facebox[0], facebox[1], facebox[2], facebox[3])}
+    #response = {'box': '[{} {} {} {}]'.format()}
 
     # Encode response using jsonpicke
-    response_pickled = jsonpickle.encode(response)
+    # response_pickled = jsonpickle.encode(response)
+    response_pickled = jsonpickle.encode(face_box)
+
 
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
