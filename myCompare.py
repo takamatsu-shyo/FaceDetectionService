@@ -43,6 +43,7 @@ import argparse
 import facenet
 #import align.detect_face
 import facenet.src.align.detect_face
+import time
 
 def main(args):
 
@@ -95,18 +96,27 @@ def my_detect_face(img):
     margin = 44		      # Quick dirty solution2
     
     print('Creating networks and loading parameters')
-    with tf.Graph().as_default():
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
-        sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
-        with sess.as_default():
-            pnet, rnet, onet = facenet.src.align.detect_face.create_mtcnn(sess, None)
+    start = time.time()
+    for i in range(0,11):
+         with tf.Graph().as_default():
+             gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
+             sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
+             with sess.as_default():
+                 pnet, rnet, onet = facenet.src.align.detect_face.create_mtcnn(sess, None)
+    elapsed_time = time.time() - start
+    print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
   
     # tmp_image_paths=copy.copy(image_paths)
     # img_list = []
     # for image in tmp_image_paths:
     # img = misc.imread(os.path.expanduser(image), mode='RGB')
     img_size = np.asarray(img.shape)[0:2]
-    bounding_boxes, _ = facenet.src.align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
+    start = time.time()
+    for i in range(0,11):
+        bounding_boxes, _ = facenet.src.align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
+    elapsed_time = time.time() - start
+    print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+ 
     if len(bounding_boxes) < 1:
       image_paths.remove(image)
       print("can't detect face, remove ", image)

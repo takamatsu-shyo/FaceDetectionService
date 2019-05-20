@@ -18,21 +18,13 @@ headers      = {'content-type': content_type}
 img = cv2.imread('./photo/jaak_id.jpg')
 _, img_encoded = cv2.imencode('.jpg', img)
 
-start = time.time()
-for i in range(0,11):
-    # Test: Send HTTP request with image and recieve response
-    response = requests.post(test_url, data=img_encoded.tostring(), headers=headers)
-    print (json.loads(response.text))
-elapsed_time = time.time() - start
-print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+# Test: Send HTTP request with image and recieve response
+response = requests.post(test_url, data=img_encoded.tostring(), headers=headers)
+print (json.loads(response.text))
 
 
-start = time.time()
-for i in range(0,11):
-    # FaceDetect: Send HTTP request with image and recieve response
-    response = requests.post(facedetect_url, data=img_encoded.tostring(), headers=headers)
-    print (json.loads(response.text))
-elapsed_time = time.time() - start
-print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+# FaceDetect: Send HTTP request with image and recieve response
+response = requests.post(facedetect_url, data=img_encoded.tostring(), headers=headers)
+print (json.loads(response.text))
 
 
