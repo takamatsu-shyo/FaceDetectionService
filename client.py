@@ -5,7 +5,7 @@ import json
 import cv2
 
 addr = 'http://localhost:5000'
-test_url = addr + '/test'
+test_url = addr + '/facebox'
 
 # Prepare headers for http request
 content_type = 'image/jpeg'
