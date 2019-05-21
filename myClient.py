@@ -46,6 +46,6 @@ print (json.loads(response.text))
 # Only with -f option
 if args.face:
    response = requests.post(facedetect_url, data=img_encoded.tostring(), headers=headers)
-    print (json.loads(response.text))
+   print (json.loads(response.text))
 
 
