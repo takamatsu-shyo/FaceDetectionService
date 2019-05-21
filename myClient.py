@@ -1,4 +1,9 @@
-# https://gist.github.com/kylehounslow/767fb72fde2ebdd010a0bf4242371594
+#
+# What?   : Command line interface for FaceDetction server
+# How to ?: python3 myClient your_image.jpg -f
+# Ref     : https://gist.github.com/kylehounslow/767fb72fde2ebdd010a0bf4242371594
+# Comment : Don't foreget to run the server before you fire this script
+#
 
 import requests
 import json
