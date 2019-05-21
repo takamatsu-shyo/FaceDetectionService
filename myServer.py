@@ -54,7 +54,7 @@ def facebox():
     img = req2img(request) 
 
     # Do the face detection
-    face_box = my_detect_face(img)
+    face_box = my_detect_face(img, 1)
     print(type(face_box))
 
      # Build a response dict to send back to client
