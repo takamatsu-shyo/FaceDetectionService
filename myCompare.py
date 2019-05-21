@@ -88,23 +88,27 @@ def main(args):
 # Dirty copy&paste from load_and_align_data (next one)            
 #
 #def load_and_face_box(image_paths, image_size, margin, gpu_memory_fraction):
-def my_detect_face(img):
+def my_detect_face(img, loop):
     minsize = 20 # minimum size of face
     threshold = [ 0.6, 0.7, 0.7 ]  # three steps's threshold
     factor = 0.709 # scale factor
     gpu_memory_fraction = 0.9 # Quick dirty solution
     margin = 44		      # Quick dirty solution2
+
+    # For performance testing
+    print("Will be loop {0} times".format(loop))
+    loop += 1
     
     print('Creating networks and loading parameters')
     start = time.time()
-    for i in range(0,11):
+    for i in range(0,loop):
          with tf.Graph().as_default():
              gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
              sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
              with sess.as_default():
                  pnet, rnet, onet = facenet.src.align.detect_face.create_mtcnn(sess, None)
     elapsed_time = time.time() - start
-    print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+    print ("elapsed_time for Create NW: {0}".format(elapsed_time) + "[sec]")
   
     # tmp_image_paths=copy.copy(image_paths)
     # img_list = []
@@ -112,10 +116,10 @@ def my_detect_face(img):
     # img = misc.imread(os.path.expanduser(image), mode='RGB')
     img_size = np.asarray(img.shape)[0:2]
     start = time.time()
-    for i in range(0,11):
+    for i in range(0,loop):
         bounding_boxes, _ = facenet.src.align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
     elapsed_time = time.time() - start
-    print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+    print ("elapsed_time for Detect: {0}".format(elapsed_time) + "[sec]")
  
     if len(bounding_boxes) < 1:
       image_paths.remove(image)
