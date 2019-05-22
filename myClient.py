@@ -15,20 +15,20 @@ import sys
 
 # Arg parser
 parser = argparse.ArgumentParser()
-parser.add_argument("jpg", help="JPEG image to send GPU server")
+parser.add_argument("image", help="Image to send GPU server")
 parser.add_argument("-f", "--face", action="store_true", help="face detection")
 args = parser.parse_args()
 
-print('Input image: ', args.jpg)
+print('Input image: ', args.image)
  
-if(os.path.isfile(args.jpg)):
+if(os.path.isfile(args.image)):
    # Read and decode a image
-    img = cv2.imread(args.jpg)
+    img = cv2.imread(args.image)
     _, img_encoded = cv2.imencode('.jpg', img)
 
 else:
     # Exit
-    sys.exit('JPEG File not found', args.jpg )
+    sys.exit('File not found', args.image )
 
 addr = 'http://localhost:5000'
 test_url = addr + '/test'
