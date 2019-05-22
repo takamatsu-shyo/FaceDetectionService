@@ -107,20 +107,22 @@ def my_detect_face(img, loop):
              sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
              with sess.as_default():
                  pnet, rnet, onet = facenet.src.align.detect_face.create_mtcnn(sess, None)
-    elapsed_time = time.time() - start
-    print ("elapsed_time for Create NW: {0}".format(elapsed_time) + "[sec]")
-  
+    elapsed_time_nw = time.time() - start
+ 
     # tmp_image_paths=copy.copy(image_paths)
     # img_list = []
     # for image in tmp_image_paths:
     # img = misc.imread(os.path.expanduser(image), mode='RGB')
-    img_size = np.asarray(img.shape)[0:2]
+    start = time.time()
+    for i in range(0,loop):
+        img_size = np.asarray(img.shape)[0:2]
+    elapsed_time_asarray = time.time() - start
+
     start = time.time()
     for i in range(0,loop):
         bounding_boxes, _ = facenet.src.align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
-    elapsed_time = time.time() - start
-    print ("elapsed_time for Detect: {0}".format(elapsed_time) + "[sec]")
- 
+    elapsed_time_bbox = time.time() - start
+
     if len(bounding_boxes) < 1:
       image_paths.remove(image)
       print("can't detect face, remove ", image)
@@ -134,8 +136,16 @@ def my_detect_face(img, loop):
     bb[3] = np.minimum(det[3]+margin/2, img_size[0])
     """
     # All detected face boxes
+    start = time.time()
     det = np.squeeze(bounding_boxes[:,0:4]).astype(np.int32)
- 
+    elapsed_time_squeeze = time.time() - start
+
+    print ("elapsed_time for Create NW: {0:.4f}".format(elapsed_time_nw) + "[sec]")
+    print ("elapsed_time for asarray  : {0:.4f}".format(elapsed_time_asarray) + "[sec]")
+    print ("elapsed_time for Detect   : {0:.4f}".format(elapsed_time_bbox) + "[sec]")
+    print ("elapsed_time for squeeze  : {0:.4f}".format(elapsed_time_squeeze) + "[sec]")
+
+
     return det
            
 def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
