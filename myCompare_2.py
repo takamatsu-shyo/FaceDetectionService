@@ -47,7 +47,7 @@ import align.detect_face
 import time
            
 # for Python2
-sys.path.append('/facenet/src/align')
+#sys.path.append('/facenet/src/align')
 #import detect_face
 #
 # Dirty copy&paste from load_and_align_data (next one)            
@@ -71,7 +71,8 @@ def my_detect_face(img, loop):
              gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
              sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
              with sess.as_default():
-                 pnet, rnet, onet = facenet.src.align.detect_face.create_mtcnn(sess, None)
+                 #pnet, rnet, onet = facenet.src.align.detect_face.create_mtcnn(sess, None)
+                 pnet, rnet, onet = align.detect_face.create_mtcnn(sess, None)
     elapsed_time_nw = time.time() - start
  
     # tmp_image_paths=copy.copy(image_paths)
@@ -85,7 +86,8 @@ def my_detect_face(img, loop):
 
     start = time.time()
     for i in range(0,loop):
-        bounding_boxes, _ = facenet.src.align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
+        #bounding_boxes, _ = facenet.src.align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
+        bounding_boxes, _ = align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
     elapsed_time_bbox = time.time() - start
 
     if len(bounding_boxes) < 1:
