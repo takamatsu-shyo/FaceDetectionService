@@ -23,6 +23,12 @@ RUN pip install -r requirements.txt
 RUN rm facenet/src/myCompare_2.py
 RUN cp myCompare_2.py facenet/src
 
+# One more file to overwrite so that we can avoid "allow_pickle=True" issue
+# BUT! NumPy 1.16.0 and earlier allow remote code execution.
+# Thus for production environment it is good to take other solutions.
+# https://nvd.nist.gov/vuln/detail/CVE-2019-6446
+RUN cp myDetect_face_2.py facenet/src/align/detect_face.py
+
 # This is just information!
 # Don't forget "-p 5000:5000/tcp" when you run the image
 EXPOSE 5000/tcp
