@@ -20,10 +20,10 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Overwrite symblic link of myCompare
-RUN rm facenet/src/myCompare.py
-RUN cp myCompare.py facenet/src
+RUN rm facenet/src/myCompare_2.py
+RUN cp myCompare_2.py facenet/src
 
 # This is just information!
 # Don't forget "-p 5000:5000/tcp" when you run the image
 EXPOSE 5000/tcp
-CMD ["python", "myServer.py"]
+CMD ["python", "myServer_2.py"]
